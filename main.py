@@ -5,18 +5,20 @@ import mock
 
 
 
-
+# def main():
+#     path = 'images.jpeg'
+#
+#     im = Image.open(path)
+#     pix = im.load()
+#
+#     width, hight = im.size
+#
+#     pointsDict = createPointsDictionary(pix, width, hight)
+#     rankingPoints = buildPetuninEllipses(pointsDict)
 
 def main():
-    #path = 'images.jpeg'
 
-    #im = Image.open(path)
-    #pix = im.load()
-    pix = mock.generateTestData()
-    #width, hight = im.size
-    width, hight = 10,8
-
-    pointsDict = createPointsDictionary(pix, width, hight)
+    pointsDict = mock.generatePointDictionaryFake()
     rankingPoints = buildPetuninEllipses(pointsDict)
 
 main()
