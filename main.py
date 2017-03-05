@@ -12,13 +12,14 @@ import mock
 #     pix = im.load()
 #
 #     width, hight = im.size
+#     print im.size
 #
 #     pointsDict = createPointsDictionary(pix, width, hight)
 #     rankingPoints = buildPetuninEllipses(pointsDict)
 
 def main():
 
-    pointsDict = mock.generatePointDictionaryFake()
+    pointsDict = mock.generateTetraeder()
     rankingPoints = buildPetuninEllipses(pointsDict)
 
 main()

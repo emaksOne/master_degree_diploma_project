@@ -18,6 +18,14 @@ def generatePointDictionaryFake():
     b2 = ((3,3,3), (4,1))
     return [p1,p2,p3,p4,q1,q2,q3,q4,b1,b2]
 
+def generateTetraeder():
+    p1 = ((0, 0, 0), (0, 0))
+    p2 = ((0, 5, 5), (0, 1))
+    p3 = ((5, 0, 5), (1, 0))
+    p4 = ((5, 5, 0), (1, 1))
+
+    return [p1,p2,p3,p4]
+
 #data = generateTestData()
 
 #print np.array(data)

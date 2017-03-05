@@ -8,15 +8,36 @@ from plotHelper import plotConvexHull
 from enclosingParallelepiped import findMinimumEnclosingParallelepiped
 
 def buildPetuninEllipses(pointsDict):
-    parallalepiped = findMinimumEnclosingParallelepiped(map(lambda x: x[0], pointsDict))
+    p1,p2,p3,p4,p5,p6 = findMinimumEnclosingParallelepiped(map(lambda x: x[0], pointsDict))
+    calculateParallelepipedPointsFromPlanes(p1,p2,p3,p4,p5,p6)
 
-    verts = findParallelepiped(pointsDict)
-    startPoint = min(verts, key=lambda x: x[0])
-    a = verts[0].distance(verts[1])
-    b = verts[1].distance(verts[2])
-    c = verts[0].distance(verts[4])
+    # verts = findParallelepiped(pointsDict)
+    # startPoint = min(verts, key=lambda x: x[0])
+    # a = verts[0].distance(verts[1])
+    # b = verts[1].distance(verts[2])
+    # c = verts[0].distance(verts[4])
 
     print 'a={0}\nb={1}\nc={2}'.format(a,b,c)
+
+def calculateParallelepipedPointsFromPlanes(leftPlane,rightPlane,upPlane,downPlane,frontPlane,backPlane):
+    # temp = frontPlane.intersection(leftPlane)[0]
+    # temp2 = downPlane.intersection(temp)
+    v1 = downPlane.intersection(frontPlane.intersection(leftPlane)[0])[0]
+    v2 = downPlane.intersection(backPlane.intersection(leftPlane)[0])[0]
+    v3 = downPlane.intersection(backPlane.intersection(rightPlane)[0])[0]
+    v4 = downPlane.intersection(frontPlane.intersection(rightPlane)[0])[0]
+
+    w1 = upPlane.intersection(frontPlane.intersection(leftPlane)[0])[0]
+    w2 = upPlane.intersection(backPlane.intersection(leftPlane)[0])[0]
+    w3 = upPlane.intersection(backPlane.intersection(rightPlane)[0])[0]
+    w4 = upPlane.intersection(frontPlane.intersection(rightPlane)[0])[0]
+
+    plotPoints([v1, v2, v3, v4, w1, w2, w3, w4], 'ro')
+    showPlot()
+    print 'v1={0}\nv2={1}\nv3={2}\nv4={3}\nw1={4}\nw2={5}\nw3={6}\nw4={7}\n'.format( \
+        v1, v2, v3, v4, w1, w2, w3, w4)
+
+    return v1, v2, v3, v4, w1, w2, w3, w4
 
 def calculateParallelepipedPoints(d1,d2, q1, q2, p1, p2):
     diameter = sp.Line3D(d1, d2)

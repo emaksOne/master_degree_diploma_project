@@ -2,6 +2,41 @@ import scipy.spatial as sci
 import numpy as np
 import sympy as sp
 import matplotlib.pyplot as plt
+import itertools
+import sys
+print sys.maxint
+
+e1 = sp.Line3D((0,5,0), (5,5,0))
+e2 = sp.Line3D((5,0,5), (5,0,0))
+
+print range(10)
+print range(1,10)
+
+print sp.geometry.intersection(e1,e2)
+
+normal = sp.Point3D(np.cross(e1.p2-e1.p1, e2.p2-e2.p1))
+print normal
+print e1.p1
+plane = sp.Plane(e1.p1, normal_vector=normal)
+
+
+print plane
+
+
+for subset in itertools.combinations([1,2,3], 2):
+    print subset
+collection = []
+l1 = sp.Line3D(sp.Point3D(0,0,0), sp.Point3D(1,1,0))
+l2 = sp.Line3D(sp.Point3D(2,2,0), sp.Point3D(3,3,0))
+print l1.equation()
+print l2.equation()
+collection.append(l1)
+
+if l2 not in collection:
+    collection.append(l2)
+
+print collection
+
 
 
 line1 = sp.Line3D(sp.Point3D(0,0,0), sp.Point3D(1,0,0))
