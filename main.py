@@ -19,7 +19,8 @@ import mock
 
 def main():
 
-    pointsDict = mock.generateTetraeder()
+    #pointsDict = mock.generateTetraeder()
+    pointsDict = mock.generatePointDictionaryFake()
     rankingPoints = buildPetuninEllipses(pointsDict)
 
 main()

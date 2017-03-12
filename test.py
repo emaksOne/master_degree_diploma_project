@@ -6,8 +6,15 @@ import itertools
 import sys
 print sys.maxint
 
+point = sp.Point3D([6,5,4])
+point2 = sp.Point3D([5,4,3])
+print point - point2
+print point
 e1 = sp.Line3D((0,5,0), (5,5,0))
-e2 = sp.Line3D((5,0,5), (5,0,0))
+e2 = sp.Line3D((5,5,0), (0,5,0))
+
+print e1.direction_ratio
+print e2.p1
 
 print range(10)
 print range(1,10)
