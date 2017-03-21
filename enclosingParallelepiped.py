@@ -6,9 +6,11 @@ from plotHelper import plotPoints
 from plotHelper import plotConvexHull
 import itertools
 from sys import maxint
+from convexHullHelper import analysConvexHull
 from sympy import are_similar
 
 def findMinimumEnclosingParallelepiped(points):
+    convexHullModif = analysConvexHull(points)
     convexHull = sci.ConvexHull(points)
     print 'convex hull vertices are {0}'.format(convexHull.vertices)
     verts = convexHull.vertices
@@ -114,9 +116,9 @@ def findMinimumEnclosingParallelepiped(points):
     supportingPlanes = ()
 
     for i in range(len(N)):
-        print 'i = {0}'.format(i)
+        #print 'i = {0}'.format(i)
         for j in range(i+1, len(N)):
-            print 'j = {0}'.format(j)
+            #print 'j = {0}'.format(j)
             for k in range(j+1, len(N)):
                 en1 = N[i]
                 en2 = N[j]
@@ -124,12 +126,15 @@ def findMinimumEnclosingParallelepiped(points):
                 line1 = sp.Line3D((0,0,0), en1[2])
                 line2 = sp.Line3D((0,0,0), en2[2])
                 line3 = sp.Line3D((0,0,0), en3[2])
-                if line1.is_perpendicular(line2) and line2.is_perpendicular(line3) and line1.is_perpendicular(line3):
+                #if line1.is_perpendicular(line2) and line2.is_perpendicular(line3) and line1.is_perpendicular(line3):
+                if line1.is_perpendicular(line2) and line2.is_perpendicular(line3):
                     a = en1[0].distance(en1[1])
                     b = en2[0].distance(en2[1])
                     c = en3[0].distance(en3[1])
                     currentVolume = a*b*c
-                    
+                    #if currentVolume == 125/2:
+                     #   print 'hop'
+
                     print 'volume = {0}'.format(currentVolume)
 
                     if currentVolume < minVolume:

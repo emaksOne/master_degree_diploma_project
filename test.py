@@ -6,6 +6,8 @@ import itertools
 import sys
 print sys.maxint
 
+points = np.random.rand(30, 2)
+
 point = sp.Point3D([6,5,4])
 point2 = sp.Point3D([5,4,3])
 print point - point2

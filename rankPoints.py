@@ -9,6 +9,8 @@ from enclosingParallelepiped import findMinimumEnclosingParallelepiped
 
 def buildPetuninEllipses(pointsDict):
     p1,p2,p3,p4,p5,p6 = findMinimumEnclosingParallelepiped(map(lambda x: x[0], pointsDict))
+    # p1,p2,p3,p4,p5,p6 = findParallelepiped(pointsDict)
+    # p1,p2,p3,p4,p5,p6 = findMinimumEnclosingParallelepiped([p1,p2,p3,p4,p5,p6])
     calculateParallelepipedPointsFromPlanes(p1,p2,p3,p4,p5,p6)
 
     # verts = findParallelepiped(pointsDict)
@@ -62,8 +64,8 @@ def calculateParallelepipedPoints(d1,d2, q1, q2, p1, p2):
     w3 = upPlane.intersection(backPlane.intersection(rightPlane)[0])[0]
     w4 = upPlane.intersection(frontPlane.intersection(rightPlane)[0])[0]
 
-    plotPoints([v1,v2,v3,v4,w1,w2,w3,w4], 'ro')
-    showPlot()
+    #plotPoints([v1,v2,v3,v4,w1,w2,w3,w4], 'ro')
+    #showPlot()
     print 'v1={0}\nv2={1}\nv3={2}\nv4={3}\nw1={4}\nw2={5}\nw3={6}\nw4={7}\n'.format( \
         v1, v2, v3, v4, w1, w2, w3, w4)
 
@@ -79,9 +81,9 @@ def findParallelepiped(pointsDic):
     convexHull = sci.ConvexHull(onlyPoints)
     print convexHull.vertices
     verts = convexHull.vertices
-    plotPoints(map(lambda x: onlyPoints[x], verts))
+    #plotPoints(map(lambda x: onlyPoints[x], verts))
     #plotPoints(onlyPoints)
-    plotConvexHull(onlyPoints, convexHull.simplices, 'k-')
+    #plotConvexHull(onlyPoints, convexHull.simplices, 'k-')
 
 
     #find two farthest points
@@ -187,9 +189,9 @@ def findParallelepiped(pointsDic):
     #plotPoints([d1,d2,q1,q2,p1,p2], 'r')
 
 
-    ppp = calculateParallelepipedPoints(d1,d2, q1,q2, p1,p2)  #parallelepiped points
+    #ppp = calculateParallelepipedPoints(d1,d2, q1,q2, p1,p2)  #parallelepiped points
 
-    return ppp
+    return d1,d2,q1,q2,p1,p2
 
 
 
