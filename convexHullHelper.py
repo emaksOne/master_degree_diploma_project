@@ -49,15 +49,36 @@ def analysConvexHull(points):
 
             val = neighbors.get(key, [])
             reverseVal = neighbors.get(reverseKey, [])
-            if len(val) < 2 and len(reverseVal) < 2:
-                val.append(facesValues[i])
-                reverseVal.append(facesValues[i])
-                if len(val) == 2:
-                    neighbors[key] = val
-                elif len(reverseVal) == 2:
-                    neighbors[key] = reverseVal
-                else:
-                    neighbors[key] = val
+            # fullVal = []
+            # if val != [] or reverseVal != []:
+            #     val.extend(tuple(reverseVal))
+            # val = list(set([tuple(v) for v in val]))
+            # if len(val) < 2:
+            #     val.append(facesValues[i])
+            #     neighbors[key] = val
+
+            if key not in neighbors and reverseKey not in neighbors:
+                neighbors[key] = [facesValues[i]]
+            if key in neighbors:
+                val = neighbors[key]
+                if val[0] != facesValues[i]:
+                    val.append(facesValues[i])
+                neighbors[key] = val
+            else:
+                reverseVal = neighbors[reverseKey]
+                if reverseVal[0] != facesValues[i]:
+                    reverseVal.append(facesValues[i])
+                neighbors[reverseKey] = reverseVal
+
+            # if len(val) < 2 and len(reverseVal) < 2:
+            #     val.append(facesValues[i])
+            #     reverseVal.append(facesValues[i])
+            #     if len(val) == 2:
+            #         neighbors[key] = val
+            #     elif len(reverseVal) == 2:
+            #         neighbors[key] = reverseVal
+            #     else:
+            #         neighbors[key] = val
 
     return {'faces': faces, 'edges': edges, 'neighbors': neighbors}
 

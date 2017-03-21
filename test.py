@@ -6,6 +6,12 @@ import itertools
 import sys
 print sys.maxint
 
+t = []
+f = [[6,2,1]]
+t.extend(f)
+print t
+t = list(set(t))
+print t
 points = np.random.rand(30, 2)
 
 point = sp.Point3D([6,5,4])
