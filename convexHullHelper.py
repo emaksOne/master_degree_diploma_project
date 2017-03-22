@@ -80,7 +80,7 @@ def analysConvexHull(points):
             #     else:
             #         neighbors[key] = val
 
-    return {'faces': faces, 'edges': edges, 'neighbors': neighbors}
+    return {'faces': faces, 'edges': edges, 'neighbors': neighbors, 'vertices': convexHull.vertices}
 
 
 

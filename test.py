@@ -4,7 +4,13 @@ import sympy as sp
 import matplotlib.pyplot as plt
 import itertools
 import sys
-print sys.maxint
+
+
+from sklearn import tree
+X = [[0, 0], [1, 1]]
+Y = [0, 1]
+clf = tree.DecisionTreeClassifier()
+clf = clf.fit(X, Y)
 
 t = []
 f = [[6,2,1]]

@@ -34,6 +34,8 @@ def calculateParallelepipedPointsFromPlanes(leftPlane,rightPlane,upPlane,downPla
     w3 = upPlane.intersection(backPlane.intersection(rightPlane)[0])[0]
     w4 = upPlane.intersection(frontPlane.intersection(rightPlane)[0])[0]
 
+    print 'v1={0}\nv2={1}\nv3={2}\nv4={3}\nw1={4}\nw2={5}\nw3={6}\nw4={7}\n'.format( \
+        v1, v2, v3, v4, w1, w2, w3, w4)
     plotPoints([v1, v2, v3, v4, w1, w2, w3, w4], 'ro')
     showPlot()
     print 'v1={0}\nv2={1}\nv3={2}\nv4={3}\nw1={4}\nw2={5}\nw3={6}\nw4={7}\n'.format( \
