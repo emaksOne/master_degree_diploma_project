@@ -92,9 +92,10 @@ def findMinimumEnclosingParallelepiped(points):
                 normal = sp.Point3D(np.cross(e1.p2 - e1.p1, e2.p2 - e2.p1))
                 plane = sp.Plane(e1.p1, normal_vector=normal)
                 paralelPlane = sp.Plane(e2.p1, normal_vector=normal)
-                entity = (plane, paralelPlane, normal)
-                #N.append(entity)
-                appendToN(entity)
+                if plane.equation() != paralelPlane.equation():
+                    entity = (plane, paralelPlane, normal)
+                    #N.append(entity)
+                    appendToN(entity)
 
 
     N = Ndict.values()
