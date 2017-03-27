@@ -26,6 +26,16 @@ def generateTetraeder():
 
     return [p1,p2,p3,p4]
 
+def generateRombCube():
+    p1 = ((0, 0, 4), (0, 0))
+    p2 = ((4, 0, 4), (0, 1))
+    p3 = ((4, 4, 4), (1, 0))
+    p4 = ((0, 4, 4), (1, 1))
+    p5 = ((2, 2, 0), (2, 0))
+    p6 = ((2, 2, 8), (2, 1))
+
+    return [p1,p2,p3,p4,p5,p6]
+
 #data = generateTestData()
 
 #print np.array(data)

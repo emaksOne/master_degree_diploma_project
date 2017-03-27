@@ -5,22 +5,23 @@ import mock
 
 
 #
-# def main():
-#     path = 'images.jpeg'
-#
-#     im = Image.open(path)
-#     pix = im.load()
-#
-#     width, hight = im.size
-#     print im.size
-#
-#     pointsDict = createPointsDictionary(pix, width, hight)
-#     rankingPoints = buildPetuninEllipses(pointsDict)
-
 def main():
+    path = 'images.jpeg'
 
-    #pointsDict = mock.generateTetraeder()
-    pointsDict = mock.generatePointDictionaryFake()
+    im = Image.open(path)
+    pix = im.load()
+
+    width, hight = im.size
+    print im.size
+
+    pointsDict = createPointsDictionary(pix, width, hight)
     rankingPoints = buildPetuninEllipses(pointsDict)
+
+# def main():
+#
+#     pointsDict = mock.generateTetraeder()
+#     #pointsDict = mock.generateRombCube()
+#     #pointsDict = mock.generatePointDictionaryFake()
+#     rankingPoints = buildPetuninEllipses(pointsDict)
 
 main()
