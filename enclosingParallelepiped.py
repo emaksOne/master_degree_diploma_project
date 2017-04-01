@@ -7,7 +7,9 @@ from plotHelper import plotConvexHull
 import itertools
 from sys import maxint
 from convexHullHelper import analysConvexHull
-from sympy import are_similar
+from math import fabs
+
+minVolume = maxint
 
 def findMinimumEnclosingParallelepiped(points):
     convexHullModif = analysConvexHull(points)
@@ -32,12 +34,12 @@ def findMinimumEnclosingParallelepiped(points):
 
     def appendToNormals(plane, point):
         perpendicularLine = plane.perpendicular_line(point)
-        #normalVector = perpendicularLine.p2 - perpendicularLine.p1
         planePoint = plane.intersection(perpendicularLine)[0]
         normalVector = sp.Point3D(point) - planePoint
 
         key = plane.equation()
         normalDict[key] = normalVector
+        return normalVector
 
 
     for face in faces:
@@ -53,12 +55,9 @@ def findMinimumEnclosingParallelepiped(points):
             if(currentDist > maxDist):
                 maxDist = currentDist
                 pMaxInd = i
-        appendToNormals(plane, points[pMaxInd])
+        normal = appendToNormals(plane, points[pMaxInd])
         paralelPlane = plane.parallel_plane(points[pMaxInd])
-        normal = plane.normal_vector
         entity = (plane, paralelPlane, normal)
-        # if entity not in N:
-        #     N.append(entity)
         appendToN(entity)
 
 
@@ -78,13 +77,7 @@ def findMinimumEnclosingParallelepiped(points):
         edgeNeighborsFor1 = neighbors.get(key1, neighbors.get(reverseKey1, []))
         edgeNeighborsFor2 = neighbors.get(key2, neighbors.get(reverseKey2, []))
 
-        # normalForFirst_1 = sp.Plane(points[edgeNeighborsFor1[0][0]], points[edgeNeighborsFor1[0][1]], points[edgeNeighborsFor1[0][2]]).normal_vector
-        # normalForFirst_2 = sp.Plane(points[edgeNeighborsFor1[1][0]], points[edgeNeighborsFor1[1][1]], points[edgeNeighborsFor1[1][2]]).normal_vector
-        #
-        # normalForSecond_1 = sp.Plane(points[edgeNeighborsFor2[0][0]], points[edgeNeighborsFor2[0][1]],
-        #                             points[edgeNeighborsFor2[0][2]]).normal_vector
-        # normalForSecond_2 = sp.Plane(points[edgeNeighborsFor2[1][0]], points[edgeNeighborsFor2[1][1]],
-        #                             points[edgeNeighborsFor2[1][2]]).normal_vector
+
 
         eqForFirst_1 = sp.Plane(points[edgeNeighborsFor1[0][0]], points[edgeNeighborsFor1[0][1]],
                                     points[edgeNeighborsFor1[0][2]]).equation()
@@ -104,51 +97,33 @@ def findMinimumEnclosingParallelepiped(points):
         # for edge2
         dot1 = np.dot(direction2, normalForFirst_1)
         dot2 = np.dot(direction2, normalForFirst_2)
-        # if dot1 == 0 and dot2 == 0:
-        #     return True
+
         if dot1 * dot2 >= 0:
             return False
 
         #for edge1
         dot1 = np.dot(direction1, normalForSecond_1)
         dot2 = np.dot(direction1, normalForSecond_2)
-        # if dot1 == 0 and dot2 == 0:
-        #     return True
+
         if dot1 * dot2 >= 0:
             return False
 
         return True
 
-
-
-    #print 'N size = {0}'.format(len(N))
-
     for i in range(len(edges)):
-        #print 'i = {0}'.format(i)
         for j in range(i+1,len(edges)):
-            #print 'j = {0}'.format(j)
-            # e1 = edges[i][0]
-            # e2 = edges[j][0]
-            # if not e1.is_parallel(e2):
-            #     if isCorrectEdge(e1) and isCorrectEdge(e2):
-            #         normal = sp.Point3D(np.cross(e1.p2 - e1.p1, e2.p2 - e2.p1))
-            #         #if isCorrect(e1, normal) and isCorrect(e2, normal):
-            #         plane = sp.Plane(e1.p1, normal_vector=normal)
-            #         paralelPlane = sp.Plane(e2.p1, normal_vector=normal)
-            #         if plane.equation() != paralelPlane.equation():
-            #             entity = (plane, paralelPlane, normal)
-            #             if entity not in N:
-            #                 N.append(entity)
+
             e1 = sp.Line3D(edges[i][0], edges[i][1])
             e2 = sp.Line3D(edges[j][0], edges[j][1])
 
             if not e1.is_parallel(e2) and isCorrectEdges(edges[i], edges[j]):
                 normal = sp.Point3D(np.cross(e1.p2 - e1.p1, e2.p2 - e2.p1))
+
                 plane = sp.Plane(e1.p1, normal_vector=normal)
+                normal = appendToNormals(plane, e2.p1)
                 paralelPlane = sp.Plane(e2.p1, normal_vector=normal)
                 if plane.equation() != paralelPlane.equation():
                     entity = (plane, paralelPlane, normal)
-                    #N.append(entity)
                     appendToN(entity)
 
 
@@ -158,82 +133,44 @@ def findMinimumEnclosingParallelepiped(points):
     minVolume = maxint
     supportingPlanes = ()
 
-    # for i in range(len(N)):
-    #     #print 'i = {0}'.format(i)
-    #     for j in range(i+1, len(N)):
-    #         #print 'j = {0}'.format(j)
-    #         for k in range(j+1, len(N)):
-    #             en1 = N[i]
-    #             en2 = N[j]
-    #             en3 = N[k]
-    #             line1 = sp.Line3D((0,0,0), en1[2])
-    #             line2 = sp.Line3D((0,0,0), en2[2])
-    #             line3 = sp.Line3D((0,0,0), en3[2])
-    #             #if line1.is_perpendicular(line2) and line2.is_perpendicular(line3) and line1.is_perpendicular(line3):
-    #             #if line1.is_perpendicular(line2) and line2.is_perpendicular(line3):
-    #             if np.cross(line2.p2-line2.p1, line1.p2 - line1.p1).dot(line3.p2 - line3.p1) != 0:
-    #                 a = en1[0].distance(en1[1])
-    #                 b = en2[0].distance(en2[1])
-    #                 c = en3[0].distance(en3[1])
-    #                 currentVolume = a*b*c
-    #                 #if currentVolume == 125/2:
-    #                  #   print 'hop'
-    #
-    #                 print 'volume = {0}'.format(currentVolume)
-    #
-    #                 if currentVolume < minVolume:
-    #                     minVolume = currentVolume
-    #                     supportingPlanes = (en1[0], en1[1], en2[0], en2[1], en3[0], en3[1])
-    #print 'itertools size is {0}'.format(itertools.product(N, repeat = 3))
+
     i = 0
-    for x, y, z in itertools.combinations(N,3):
+
+    for x, y, z in itertools.combinations(N, 3):
         print i
         i += 1
         en1 = x
         en2 = y
         en3 = z
-        line1 = sp.Line3D((0,0,0), en1[2])
-        line2 = sp.Line3D((0,0,0), en2[2])
-        line3 = sp.Line3D((0,0,0), en3[2])
-        #if line1.is_perpendicular(line2) and line2.is_perpendicular(line3) and line1.is_perpendicular(line3):
-        #if line1.is_perpendicular(line2) and line2.is_perpendicular(line3):
-        if np.cross(line2.p2-line2.p1, line1.p2 - line1.p1).dot(line3.p2 - line3.p1) != 0:
-            a = en1[0].distance(en1[1])
-            b = en2[0].distance(en2[1])
-            c = en3[0].distance(en3[1])
-            currentVolume = a*b*c
-            #if currentVolume == 125/2:
-             #   print 'hop'
 
-            #print 'volume = {0}'.format(currentVolume)
+        crossDot = calculateCrossDot(en1[2], en2[2], en3[2])
+        if crossDot != 0:
+
+            currentVolume = calculateVolume(en1[2], en2[2], en3[2], crossDot)
 
             if currentVolume < minVolume:
                 minVolume = currentVolume
+                print 'volume = {0}'.format(currentVolume)
                 supportingPlanes = (en1[0], en1[1], en2[0], en2[1], en3[0], en3[1])
+
+    print 'volume = {0}'.format(minVolume)
 
     return supportingPlanes[0],supportingPlanes[1], supportingPlanes[2], supportingPlanes[3], supportingPlanes[4], supportingPlanes[5]
 
+def crossProduct(u, v):
+    return (u[1]*v[2] -u[2]*v[1], u[2]*v[0] - u[0]*v[2], u[0]*v[1] - u[1]*v[0])
+
+def dotProduct(u, v):
+    return u[0]*v[0] + u[1]*v[1] + u[2]*v[2]
+
+def calculateCrossDot(n1, n2, n3):
+    cross = crossProduct(n1, n2)
+    dot = dotProduct(cross, n3)
+    return dot
 
 
-
-
-
-def addLines(points, edgeDict, normal):
-    for p1,p2 in itertools.combinations(points, 2):
-        line = sp.Line3D(p1, p2)
-        key = '{0},{1}'.format(p1,p2)
-        reverseKey = '{0},{1}'.format(p2,p1)
-
-        if key not in edgeDict and reverseKey not in edgeDict:
-            edgeDict[key] = [line, normal]
-        else:
-            if key in edgeDict:
-                value = edgeDict[key]
-                if len(value)<3:
-                    value.append(normal)
-                    edgeDict[key] = value
-            if reverseKey in edgeDict:
-                reverseValue = edgeDict[reverseKey]
-                if len(reverseKey)<3:
-                    reverseValue.append(normal)
-                    edgeDict[reverseKey] = value
+def calculateVolume(n1, n2, n3, crossDot):
+    numerator = dotProduct(n1, n1) * dotProduct(n2, n2) * dotProduct(n3, n3)
+    denominator = fabs(crossDot)
+    volume = numerator/denominator
+    return volume

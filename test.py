@@ -5,6 +5,24 @@ import matplotlib.pyplot as plt
 import itertools
 import sys
 
+from joblib import Parallel, delayed
+import multiprocessing
+
+
+for i in range(50000000):
+    print i
+# what are your inputs, and what operation do you want to
+# perform on each input. For example...
+inputs = range(10)
+
+
+def processInput(i):
+    return i * i
+
+
+num_cores = multiprocessing.cpu_count()
+
+results = Parallel(n_jobs=num_cores)(delayed(processInput)(i) for i in inputs)
 
 from sklearn import tree
 X = [[0, 0], [1, 1]]
