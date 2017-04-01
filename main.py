@@ -16,11 +16,11 @@ def main():
     pointsDict = createPointsDictionary(pix, width, hight)
     rankingPoints = buildPetuninEllipses(pointsDict)
 
-def main():
-
-    #pointsDict = mock.generateTetraeder()
-    pointsDict = mock.generateRombCube()
-    #pointsDict = mock.generatePointDictionaryFake()
-    rankingPoints = buildPetuninEllipses(pointsDict)
+# def main():
+#
+#     #pointsDict = mock.generateTetraeder()
+#     #pointsDict = mock.generateRombCube()
+#     pointsDict = mock.generatePointDictionaryFake()
+#     rankingPoints = buildPetuninEllipses(pointsDict)
 
 main()
