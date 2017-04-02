@@ -16,6 +16,16 @@ def main():
     pointsDict = createPointsDictionary(pix, width, hight)
     rankingPoints = buildPetuninEllipses(pointsDict)
 
+    for info in rankingPoints:
+        rgb = info[0]
+        position = info[1]
+        mark = info[2]
+        if mark:
+            rgb = (172, 172, 172)
+        pix[position] = rgb
+    im.save('filtered.png')
+
+
 # def main():
 #
 #     #pointsDict = mock.generateTetraeder()
