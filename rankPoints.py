@@ -60,11 +60,12 @@ def buildPetuninEllipses(pointsDict):
 
     resultedPointsInfo = applyMatrixToPointsBack(pointsDictNewMarked, transrormationMatrix)
 
-    return
 
     plotPoints(map(lambda x:pointsDictNew[x][0], convexVerts), 'go')
 
-    showPlot()
+    #showPlot()
+
+    return resultedPointsInfo
 
     #print 'basis = {0}'.format(customBasis)
 
@@ -152,7 +153,7 @@ def markPart(pointsInfo, percent):
     for index, info in enumerate(pointsInfo):
         mark = False
         if(index < pivot):
-            marked = True
+            mark = True
 
         marked.append((info[0], info[1], info[2], mark))
 
