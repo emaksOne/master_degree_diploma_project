@@ -11,7 +11,7 @@ def main():
     im = Image.open(path)
     pix = im.load()
 
-    pix[0,0] = (1,1,1)
+    pix[0,0] = (172,172,172)
 
     width, hight = im.size
     print im.size
@@ -25,6 +25,7 @@ def main():
         i+=1
         rgb = info[0]
         position = info[1]
+        rgb = (int(rgb[0]), int(rgb[1]), int(rgb[2]))
         mark = info[2]
         if mark:
             rgb = (172, 172, 172)
