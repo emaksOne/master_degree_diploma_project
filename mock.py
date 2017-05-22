@@ -1,9 +1,4 @@
-import numpy as np
-
-def generateTestData():
-    return [[(i+1, 2*i, 3*i) for i in range(10)] for y in range(8)]
-
-def generatePointDictionaryFake():
+def generateCube():
     p1 = ((0,0,0), (0,0))
     p2 = ((6,0,0), (0,1))
     p3 = ((6,5,0), (1,0))
@@ -35,7 +30,3 @@ def generateRombCube():
     p6 = ((2, 2, 8), (2, 1))
 
     return [p1,p2,p3,p4,p5,p6]
-
-#data = generateTestData()
-
-#print np.array(data)

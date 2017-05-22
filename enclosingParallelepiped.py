@@ -41,7 +41,7 @@ def findMinimumEnclosingParallelepiped(points):
         normalDict[key] = normalVector
         return normalVector
 
-
+    print 'processing faces'
     for face in faces:
         p1 = sp.Point3D(points[face[0]])
         p2 = sp.Point3D(points[face[1]])
@@ -60,11 +60,13 @@ def findMinimumEnclosingParallelepiped(points):
         entity = (plane, paralelPlane, normal)
         appendToN(entity)
 
+    print 'entities count after calculating faces is {0}'.format(len(Ndict))
 
     edges = convexHullModif['edges'].values()
 
-    def isCorrectEdges(edge1, edge2):
+    print 'edges count is {0}'.format(len(edges))
 
+    def isCorrectEdges(edge1, edge2):
         direction1 = sp.Point(edge1[1]) - sp.Point(edge1[0])
         direction2 = sp.Point(edge2[1]) - sp.Point(edge2[0])
 
@@ -76,8 +78,6 @@ def findMinimumEnclosingParallelepiped(points):
 
         edgeNeighborsFor1 = neighbors.get(key1, neighbors.get(reverseKey1, []))
         edgeNeighborsFor2 = neighbors.get(key2, neighbors.get(reverseKey2, []))
-
-
 
         eqForFirst_1 = sp.Plane(points[edgeNeighborsFor1[0][0]], points[edgeNeighborsFor1[0][1]],
                                     points[edgeNeighborsFor1[0][2]]).equation()
@@ -110,6 +110,7 @@ def findMinimumEnclosingParallelepiped(points):
 
         return True
 
+    print 'processing edges'
     for i in range(len(edges)):
         for j in range(i+1,len(edges)):
 
@@ -126,18 +127,21 @@ def findMinimumEnclosingParallelepiped(points):
                     entity = (plane, paralelPlane, normal)
                     appendToN(entity)
 
-
     N = Ndict.values()
-    print 'N size = {0}'.format(len(N))
+    lenN = len(N)
+    print 'final entities size is {0}'.format(lenN)
 
     minVolume = maxint
     supportingPlanes = ()
 
 
+    allN = (lenN * (lenN-1))/2 * (lenN -2)/3
     i = 0
 
+    print 'finding appropriate planes to complete parallelepiped'
     for x, y, z in itertools.combinations(N, 3):
-        print i
+        if i % 20000 == 0:
+            print 'processed {0} entities out of {1}'.format(i, allN)
         i += 1
         en1 = x
         en2 = y
@@ -150,10 +154,10 @@ def findMinimumEnclosingParallelepiped(points):
 
             if currentVolume < minVolume:
                 minVolume = currentVolume
-                print 'volume = {0}'.format(currentVolume)
+                #print 'volume = {0}'.format(currentVolume)
                 supportingPlanes = (en1[0], en1[1], en2[0], en2[1], en3[0], en3[1])
 
-    print 'volume = {0}'.format(minVolume)
+    print 'min volume of enclosing parallelepiped is {0}'.format(minVolume)
 
     return supportingPlanes[0],supportingPlanes[1], supportingPlanes[2], supportingPlanes[3], supportingPlanes[4], supportingPlanes[5], verts
 

@@ -21,6 +21,7 @@ def get2Dpoints(points):
         return points[:, [0, 1]]
 
 def analysConvexHull(points):
+    print 'start prepere convex hull stuff'
     faces = {}
     edges = {}
     neighbors = {}
@@ -49,13 +50,6 @@ def analysConvexHull(points):
 
             val = neighbors.get(key, [])
             reverseVal = neighbors.get(reverseKey, [])
-            # fullVal = []
-            # if val != [] or reverseVal != []:
-            #     val.extend(tuple(reverseVal))
-            # val = list(set([tuple(v) for v in val]))
-            # if len(val) < 2:
-            #     val.append(facesValues[i])
-            #     neighbors[key] = val
 
             if key not in neighbors and reverseKey not in neighbors:
                 neighbors[key] = [facesValues[i]]
@@ -69,16 +63,6 @@ def analysConvexHull(points):
                 if reverseVal[0] != facesValues[i]:
                     reverseVal.append(facesValues[i])
                 neighbors[reverseKey] = reverseVal
-
-            # if len(val) < 2 and len(reverseVal) < 2:
-            #     val.append(facesValues[i])
-            #     reverseVal.append(facesValues[i])
-            #     if len(val) == 2:
-            #         neighbors[key] = val
-            #     elif len(reverseVal) == 2:
-            #         neighbors[key] = reverseVal
-            #     else:
-            #         neighbors[key] = val
 
     return {'faces': faces, 'edges': edges, 'neighbors': neighbors, 'vertices': convexHull.vertices}
 

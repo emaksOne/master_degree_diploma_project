@@ -16,6 +16,6 @@ def plotConvexHull(points, simplices, color):
         plt.plot(points[simplex, 0], points[simplex, 1], points[simplex, 2], color)
 
 def showPlot():
-    plt.show()
+    plt.show(block=False)
 
 

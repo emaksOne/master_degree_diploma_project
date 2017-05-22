@@ -4,4 +4,5 @@ def createPointsDictionary(points, width, hight):
         for y in range(hight):
             item = (points[x,y], (x, y))
             pointsDict.append(item)
+
     return pointsDict
